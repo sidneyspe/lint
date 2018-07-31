@@ -2,6 +2,7 @@ package com.sidneyspe.web;
 
 import com.sidneyspe.domain.User;
 import com.sidneyspe.repository.UserRepository;
+import com.sidneyspe.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,19 @@ import java.util.Collection;
 public class UserRestController {
 
     private UserRepository userRepository;
+    private UserService userService;
 
-    @Inject
-    public void setService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+
 
     @RequestMapping(
             method = RequestMethod.POST)
     public ResponseEntity<?> addUser(@RequestBody User user) {
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED);
+        Boolean status = userService.save(user);
+        if(status == true){
+          return new ResponseEntity<>(HttpStatus.CREATED);
+        }else{
+          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(
