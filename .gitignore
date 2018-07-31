@@ -10,5 +10,6 @@ target
 .idea
 *.iml
 
+.sts4-cache/
 /app-build-deploy.bat
 /travis-ci.bat
